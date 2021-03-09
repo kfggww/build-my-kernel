@@ -10,4 +10,4 @@ Learn how does the linux kernel work
    - 模块卸载函数
    - MODULE_LICENSE
    - Makefile
-     这里的Makefile实际上会使用/lib/modules/$(KERNEL_RELEASE)/build下的Makefile
+     make的各种赋值操作有何区别? make读取文件的规则?
