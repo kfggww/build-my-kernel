@@ -1,0 +1,20 @@
+* Bare Bones I
+
+** 做了什么
+
+1. 构建交叉编译工具链
+2. 从汇编文件boot.s构建出boot.o
+3. 从c文件kernel.c构建出kernel.o
+4. 链接以上两个目标文件得到myos.bin
+5. 使用qemu加载
+
+** TODO 还有什么问题? [0/3]
+   
+   - [ ] 交叉编译工具编译出的结果和在宿主机上有什么区别? 所谓的TARGET到底代表了什么?
+   - [ ] Multiboot这个标准具体包含什么内容? 目前看Multiboot可以看成是
+     bootloader和操作系统之间的一个接口规范, 能够让bootloader识别操作
+     系统, 以GRUB这个bootloader为例, 在其配置文件grub.cfg中定义了不同
+     的内核镜像如何加载. 计算机启动的整体过程应该是"上电 -> BIOS/UEFI
+     -> bootloader -> OS", 粗线条的看, 应该是这样的. 这次实验生成的
+     boot.o需要遵循Multiboot的要求, 大小, 对齐方式, 特殊的识别标识等.
+   - [ ] 需要了解多少x86汇编?
