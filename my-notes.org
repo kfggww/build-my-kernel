@@ -81,8 +81,18 @@ MINIX3的整体系统结构分为4层, 从下至上依次是"内核", "驱动程
 文件系统的存在, 屏蔽了设备的细节, 用户只要要按照一个统一的树形结构去使
 用设备即可, 不必关心数据是在C盘还是在D盘这种问题.
 
+
 * Operating System 2
 ** Introduction
 ASMP和SMP非对称多处理机. ASMP, kernel的代码只在一个处理机上执行, 其余
 的处理机执行用户代码; SMP, kernel的代码在每个处理机上都执行, 需要解决
 的问题是访问临界区的并发.
+
+* The Linux Documentation Project
+
+** Ext2文件系统
+   为了能够在发生意外崩溃的情况下保证数据的完整性, Ext2文件系统有一些
+   冗余备份的机制, 比如超级块在多个Block Group中都存在备份, 同时每个
+   Block Group中的Group Descripter也存在备份, 这种方式在意外发生后, 能
+   够在一定程度上保证数据的安全.
+   虚拟文件系统(VFS)使得Linux能够支持不同类型的文件系统.
