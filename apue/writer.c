@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
     return -1;
   }
   // open semaphore
-  sem_t *sem_fifo = sem_open("/lock_fifo", O_EXCL, S_IRUSR|S_IWUSR);
+  sem_t *sem_fifo = sem_open("/lock_fifo", 0);
 
   if (argc == 2) {
     char *msg = argv[1];
