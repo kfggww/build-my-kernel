@@ -12,12 +12,14 @@ int main(int argc, char **argv) {
     return -1;
   }
 
-  // 2. 只读方式打开服务端FIFO
+  // 2. 只读方式打开服务端FIFO. 未指定O_NONBLOCK标志, 此时open调用会阻
+  // 塞, 直到有该FIFO有写端打开.
   int server_fifo = open(SERVER_FIFO_ADDR, O_RDONLY);
   if(server_fifo == -1) {
     printf("Failed to open server FIFO!");
     return -2;
   }
+  
   // 服务端自己也打开FIFO的写
   open(SERVER_FIFO_ADDR, O_WRONLY);
 
