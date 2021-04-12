@@ -267,3 +267,39 @@ ASMP和SMP非对称多处理机. ASMP, kernel的代码只在一个处理机上�
    储空间.
 
    Linux支持额外两个whence参数, 专门针对文件空洞, SEEK_DATA, SEEK_HOLE.
+
+** chapter 5 FILE IO Further Detail
+   进一步讲解了FILE IO相关内容. 三张表之间的关系, 如何实现的共享和保护.
+   其他读写操作, readv/writev, pread/pwrite, preadv/pwitev.
+   
+** chapter 6 进程
+   进程在虚拟地址空间上不同segment的分布情况, nolocal goto, 环境变量
+
+** chapter 7 存储空间分配
+   系统调用和库函数提供的内存分配功能.
+
+** chapter 8 用户和组
+   系统中与用户和组相关的关键文件:
+   - /etc/password
+   - /etc/group
+   - /etc/shadow
+
+   获取上述文件中记录相关的系统调用, 每次获取一条记录/遍历全部记录
+
+** chapter 9 进程身份标识
+   - 不同类型的ID;
+   - Linux特有的file system UID;
+   - 设置和获取不同的ID
+
+** chapter 10 时间和Locale
+   - 操作系统中时间的类型: 日历时间; 进程时间(用户态, 核心态, 使用time
+     命令可以查看进程的相关时间统计)
+   - 时区参数影响时间, 系统在/usr/share/zoneinfo下的文件中保存了和时区
+     设置相关的二进制文件, TZ环境变量会影响进程对时间相关的系统调用的
+     结果, /etc/localtime文件实际上是一个指向zoneinfo下某个文件的符号
+     链接
+   - Locale用于处理不同的国家或者民族信息表示方式的差别, 系统在
+     /usr/share/locale下记录了全部相关的Locale参数, 每个程序可以有自己
+     的Locale设置, 可以通过locale命令得到当前的Locale配置, 不同的配置
+     项的作用不同, 有系统调用可以设置Locale, 或者获取/usr/share/locale
+     目录下的某个选项
