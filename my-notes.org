@@ -347,3 +347,37 @@ ASMP和SMP非对称多处理机. ASMP, kernel的代码只在一个处理机上�
          会反应到其他的目录下
        - 一个目录可以像栈一样挂在文件系统, 后挂载的文件系统可见, 之前
          的被隐藏, 当栈顶的文件系统卸载时, 其下的文件系统又变得可见
+
+    
+** chapter 15 文件属性
+   文件除了本身包含的数据之外, 还有其他的描述信息, 称为文件属性. 主要
+   包含时间戳, 所有权, 权限, 相关的API和命令类似.
+   
+** chapter 16 文件扩展属性
+   EAs. 文件的扩展属性, 实际上是文件关联的一组name-value对, 其中name的
+   格式为: namespace.name, namespace包括user, trusted, system,
+   security. 不同的namespace作用不同, 并不是所有的扩展属性用户进程都可
+   以访问到. 相关API:
+
+   设置:
+   获取:
+   删除:
+   遍历:
+
+** chapter 17 Access Control List
+   1). 为什么需要ACL? 为了更精细地控制文件的访问权限, 单纯地将全部的用
+   户划分成三类, 然后分别赋予权限, 这种方式在一些情况下不能适用, 比如
+   希望单独给某个用户或者某个组设置一种权限.
+
+   2). ACL本质上是一个列表, 列表中的每项是一个记录, 每个记录是一个三元
+   组(tag_type, tag_qualifier, permission), 并且ACL列表的记录数量是有
+   限制的.
+
+   3). Default ACL. 给目录设置的ACL权限, 并且这个ACL权限是可以继承的,
+   会沿着目录树向下传递.
+
+   4). ACL API. 关键是这组API中涉及到的数据结构, 通过调用该组API可以实
+   现不同数据结构之间的转换. acl_t, acl_entry_t, acl_type_t, void
+   *(uid, gid), acl_permset_t.
+
+   5). ACL_MASK项, 权限的一个上限.
