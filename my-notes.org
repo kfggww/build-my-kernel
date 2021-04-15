@@ -381,3 +381,30 @@ ASMP和SMP非对称多处理机. ASMP, kernel的代码只在一个处理机上�
    *(uid, gid), acl_permset_t.
 
    5). ACL_MASK项, 权限的一个上限.
+
+** chapter 18 Directories and Links
+   1). 文件夹, 文件, inode表之间的关系. 文件夹是也是文件, 只是文件夹中
+   的内容是一个记录其下包含的文件名和inode号之间对应关系的列表; 文件名
+   不保存在文件数据块或者inode中, 而是保存在文件夹的数据块中; 每个文件
+   实际上和一个inode对应, inode中记录了该文件的各种属性以及数据块信息;
+   文件系统的根目录在inode表中的特殊位置.
+
+   2). Hard Link. 文件夹中记录的表项都是Hard Link, 多个文件名可以对应
+   相同的inode, 这样就可以实现一个文件有多个名字, 其中的每个Hard Link
+   并没有区别, 从实现的原理看, 就会明白为什么对应的系统调用叫做link以
+   及unlink了.
+
+   3). Symbolic Link. 符号链接或者软链接, 实际上也是一个文件, 只是文件
+   的数据中记录了其链接的文件的路径. Symbolic Link类似C语言的指针, 并
+   且Symbolic Link可以多重, 重数可能受到具体操作系统实现的影响.
+
+   4). 创建目录和删除目录
+
+   5). 遍历某个目录下的内容, opendir, readdir
+
+   6). 遍历目录树. nftw
+
+   7). 和进程相关的有关目录的系统调用. chroot, getcwd, chdir, 其中注意
+   chroot jail, "/.." and "/" 之间的关系.
+
+   8). 分别解析路径和文件名. dirname, basename
