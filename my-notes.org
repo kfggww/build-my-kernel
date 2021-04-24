@@ -528,6 +528,71 @@ _exit 和 exit 的区别:
  2. utmpx 相关 API
 
 
+** chapter 56 socket 介绍
+- 主要内容: 介绍 socket API
+- Overview: 典型的 client-server 场景, socket 可以看成是一种"设备", 每个通信的进程
+  都需要创建一个这种"设备"; 服务端会把自己的"socket 设备"绑定到一个大家都知道的地
+  址上, 这样每个服务端就都可以和服务端通信了.
+
+- Stream Socket:
+  1. fd = socket(domain, type, protocol) domain: socket 存在于通信 domain 之中,
+     domain 决定了如何标识 socket 以及 socket 通信的范围. type: 指定了 socket 的类
+     型, 至少存在两种类型的 socket, 即 SOCK_STREAM 和 SOCK_DGRAM, 前者的特点是面向连
+     接, 可靠, 后者的特点是无连接, 不可靠; SOCK_STREAM 类型的 socket 以字节流的形式
+     传输数据, SOCK_DGRAM 以数据报的形式传输数据.
+  2. bind, 把一个 socket 和一个地址绑定, 通常用于服务端, 绑定的地址是一个众所周知
+     的地址, 这样方便客户端进行连接. 也可以采用一个注册中心, 注册中心的地址是所
+     有客户端都事先知道的, 服务端上线时将自己的 socket 信息上传到注册中心, 这样客
+     户端就可以知道目前可用的服务端了.
+  3. listen, 用于服务端, 将 socket 置于 passive 状态, 即被动等待客户端连接的状态, 注
+     意客户端可能在服务端刚调用完 listen 就发来请求, 这时服务端的 accept 还没有调用,
+     此时的连接称为挂起的连接, 在调用 listen 时可以指定最大的挂起连接数量, 内核根
+     据这个最大数量处理挂起的连接.
+  4. accept, 接受客户端的请求, 并返回一个 socket 用于和客户端通信, 新返回的 socket
+     可以使用 read/write 进行读写, 也可以使用 socket 专用的 API 进行读写操作.
+  5. connect, 用于客户端连接服务端.
+  6. close, 关闭 socket.
+
+- Datagram Socket:
+  1. socket
+  2. bind
+  3. sendto
+  4. recvfrom
+
+- 理解: Stream Socket 类似于打电话, 通信双方之间存在一条连接, 打电话之前需要知道
+  对方的号码, 同理, 服务端需要把自己的 socket 绑定到一个客户端知道的地址上;
+  Datagram Socket 类似于邮局送信, 通信的双方都有一个信箱, 客户端在请求服务端的时
+  候, 必须要知道服务端的信箱地址, 所以同理, 这种情况下, 服务端还是通常还是需要把
+  自己的 socket 绑定到一个众所周知的地址, 服务端在收到客户端的请求之后, 如果需要返
+  回处理结果给客户端, 只要按照"信封"上的地址回信即可.
+
+
+
+- 备注: 在 Linux 中, 上述系统调用实际上是对 socketcall 的封装, 但是在 BSD 以及其他系统
+  中不是这样的.
+
+
+
+** chapter 57 UNIX domain socket
+- 主要内容: 介绍 UNIX domain socket, 用于同一个主机的进程间通信
+
+
+** chapter 58 TCP/IP 基础
+- 主要内容: 介绍计算机网络的基本概念以及 TCP/IP 的关键特性.
+
+
+** chapter 59 Internet domain socket
+- 主要内容: 介绍 Internet domain socket, 这种 socket 允许不同主机上的医用程序通过
+  TCP/IP 网络进行通信
+
+
+** chapter 60 服务端设计
+- 主要内容: 讨论使用 socket 进行服务端设计.
+
+
+** chapter 61 socket 相关的高级主题
+- 主要内容: socket IO 的其他特性; TCP 协议的细节; socket 的各种选项.
+
 ** chapter 62 终端 Terminals
 最初的 UNIX 系统就是一个多用户多任务的系统, 为了实现多用户同时访问系统, 每个用户需
 要一个"终端"设备完成输入输出, 最初的 Terminal 有串口和 UNIX 系统连接, 用阴极射线管作
@@ -537,4 +602,8 @@ _exit 和 exit 的区别:
 随着技术的发展, 原来的终端设备已经不能满足新的需求, 比如通过网络登录系统等, 这时
 出现了软件形式的终端设备, 即"终端模拟器". 不管是传统的物理终端, 还是现在的终端模
 拟器, 都存在一个终端驱动(Terminal Driver)和一个终端设备(Terminal Device), 对于终
-端模拟器而言, 这个终端设备就是伪终端(pseudoterminal)
+端模拟器而言, 这个终端设备就是伪终端(pseudoterminal).
+
+伪终端(pty)包含两个设备, pts(slave 端)和 ptm(master 端), 这两个设备是内核实现的,
+在文件系统中可以找到对应的设备文件. pts 和 ptm 构成了一个双向传输数据的通道, 利
+用 pty 可以实现远程登录.
