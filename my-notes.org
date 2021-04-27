@@ -557,6 +557,16 @@ _exit 和 exit 的区别:
    b. 在运行时, 必须要有一个机制能够在文件系统上找到依赖的共享库, 并且把共享库加
       载到内存中.
 
+7. 共享库的版本号约定:
+   a. real name: libNAME.so.major_id.minor_id
+   b. soname: libNAME.so.major_id -> libNAME.so.major_id.latest_minor_id, 即
+      soname 是某个 major_id 版本的最新 minor_id 的符号链接.
+   c. linker name: libNAME.so -> libNAME.so.major_id, 即 linker name 是指向某个
+      soname 的符号链接.
+
+      以上三种名字, 构成了一个三层的树形结构, 通过符号链接最终可以找到实际需要的
+      共享库文件.
+
 
 
 ** chapter 56 socket 介绍
