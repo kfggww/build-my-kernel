@@ -606,6 +606,34 @@ _exit 和 exit 的区别:
 
 5. 使用 LD_DEBUG 监视动态加载器的行为
 
+** chapter 43 进程间通信概览
+1. 进程间通信的范围:
+   a. 同一个主机上的进程之间
+   b. 不同主机的进程之间, 通过网络进行通信
+
+2. 不同类型的进程通信:
+   a. 通信:
+      - 数据传递
+        + 字节流方式
+          - pipe
+          - FIFO
+          - stream socket
+        + 伪终端方式
+        + 消息方式
+          - 消息队列
+          - datagram socket
+      - 共享内存
+
+   b. 信号:
+      - 常规信号
+      - 实时信号
+
+   c. 同步:
+      - 信号量
+      - 文件锁
+      - 互斥量
+      - 条件变量
+
 ** chapter 56 socket 介绍
 - 主要内容: 介绍 socket API
 - Overview: 典型的 client-server 场景, socket 可以看成是一种"设备", 每个通信的进程
