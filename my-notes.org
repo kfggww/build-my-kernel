@@ -677,6 +677,58 @@ _exit 和 exit 的区别:
 
 ** chapter 45 System V IPC 介绍
 
+- System V IPC Objects:
+  + message queue:
+  + semaphore:
+  + shared memory:
+- 相关 API:
+  + get 类 API: 用于创建 IPC 对象, 或者获取现有的 IPC 对象. IPC 对象有一个 key
+    和与之关联的 identifier, 通过这个 identifier 可以使用 IPC 对象. 以 message
+    queue 类的 IPC 对象为例, 内核维护了此类对象的一个数据结构, 该数据结构中保存
+    一个 seq 和一个 entries, seq 是一个序列号, 每次创建新的 IPC 对象, seq 就会递
+    增, entries 是一个数组, 数组的内容时 IPC 对象的指针, IPC 对象中记录了自己的
+    key 和创建自己时的 seq, IPC 对象的 identifier 实际上十一个整数, 其计算公式
+    为: identifier = index + ipc_object.seq * SOME_CONSTANT, 其中 index 是这个
+    IPC 对象在 entries 数组中的下标, 由于每次新建 IPC 对象时, seq 都是递增的, 因
+    此, 即使每次创建时使用的时相同的 key, 得到的 identifier 也是不同的, 同时, 通
+    过 identifier 可以方便的计算出 index, 这样就可以得到对应的 IPC 对象了, index
+    的计算公式如下: index = identifier % SOME_CONSTANT, 这两个公式中
+    SOME_CONSTANT 是一个系统常量.
+  + ctl 类 API: 可以用来删除 IPC 对象
+  + close 类 API:
+- System V IPC 的系统资源限制: 每种类型的 IPC 对象都是占用系统资源的, 不可能无限制
+  创建, 可以通过 API 调用获取这个资源限制.
+
+
+** chapter 46 System V Message Queues
+- 创建 System V Message Queue:
+  + 通过 msgget, 指定 key 和 flag, 创建一个消息队列.
+- 发送消息到消息队列:
+  + 自己定义一个消息结构体, 包含消息的 type, 消息的数据
+  + 调用 msgsnd 进行消息发送, 需要指定消息队列的 identifier, 消息结构体的指针,
+    消息结构体的大小等参数.
+- 从消息队列接收消息:
+  + 调用 msgrcv 进行消息接收, 需要指定消息队列的 identifier, 保存消息的结构体, 消息
+    的类型, 根据指定的类型, 内核会采取不同的接收消息策略. 如果 type=0, 那么取队列
+    头的第一个消息; 如果 type>0, 那么从队列头开始, 取第一个 type 为指定值的消息; 如
+    果 type<0, 那么从队列头开始, 满足消息类型不大于 type 的绝对值, 且类型值最小的消
+    息.
+- 控制消息队列:
+  + msgctl: 可以删除消息队列, 获取消息队列相关的内核数据结构 msqid_ds, 以及其他操
+    作.
+- System V Message Queue 的不足:
+  + 复杂
+  + 使用 identifier 作为消息队列的标识, 通过这个句柄操作消息队列, 而不是通过 file
+    descriptor
+  + System V 消息队列的出现较早, 后续出现的 IPC 方式对其不足做了很大的改进, 所有,
+    如过不是必要, 尽量不要使用 System V Message Queue
+- 消息队列和管道的比较:
+  + 消息队列的通信单位是消息, 而管道是一个字节流.
+  + 消息队列取消息可以采用不同的策略, 而管道直到按照流的方式进行读取.
+
+** chapter 47 System V Semaphores
+
+
 ** chapter 56 socket 介绍
 - 主要内容: 介绍 socket API
 - Overview: 典型的 client-server 场景, socket 可以看成是一种"设备", 每个通信的进程
