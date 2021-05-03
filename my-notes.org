@@ -847,6 +847,42 @@ _exit 和 exit 的区别:
   使用文件类似, 内核会维护三张表, 以实现某种程度的贡献.
 
 
+** chapter 53 POSIX Semaphores
+- 概述:
+  + POSIX 信号量有两种, named/unnamed.
+  + unamed 信号量没有名字, 其中又可以分为线程共享的信号量以及进程共享的信号量, 其
+    中进程共享的信号量可以保存在进程的全局变量中, 进程共享的信号量可以保存在共享
+    内存中.
+  + unamed 信号量同样可以使用 wait/post/getvalue 操作.
+  + POSIX 信号量和 System V 信号量以及线程的 mutex 的比较.
+
+- 使用方法:
+  + sem_open
+  + sem_close
+  + sem_unlink
+  + sem_wait
+  + sem_post
+  + sem_getvalue: 如果此时有多个进程或者线程正在等待减少信号量, 标准规定了该系统
+    调用的返回值可以有两种方案, 1) 返回 0; 2) 返回一个负值, 其绝对值代表的是正在
+    等待的进程数. 不同的实现会采取不同的方案, Linux 这种情况下返回的是 0.
+  + sem_init: 初始化 unamed 信号量.
+  + sem_destroy: 销毁 unamed 信号量, 销毁之后可以重新初始化.
+
+
+** chapter 54 POSIX Shared Memory
+- 概述:
+  + 和 System V 共享内存相比
+  + 和使用文件的内存映射相比
+  + 底层使用的是基于内存的文件系统 tmpfs
+- 如何使用:
+  + shm_open: 创建或者获取一个位于 tmpfs 上的文件描述符, 这个文件描述符可以使用
+    传统的文件相关的系统调用进行操作, 比如 ftruncate 改变文件大小
+  + mmap: 把上一步得到的文件描述符映射到进程的地址空间
+  + 使用上一步得到的映射后的地址
+  + munmap:
+  + shm_unlink: 删除创建的共享内存对象
+
+
 
 ** chapter 56 socket 介绍
 - 主要内容: 介绍 socket API
