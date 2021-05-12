@@ -1115,10 +1115,28 @@ _exit 和 exit 的区别:
 
    - 使用 qemu 制作一个虚拟机的 disk image
 
-   - qemu 启动虚拟机并指定内核
+   - _如何使用 qemu 调试内核???_
+     a. 编译好一个带有调试信息的内核;
 
+     b. 制作包含一个根文件系统的文件; 可以手动制作, 也可以使用 buildroot 这个工具;
+
+     c. 使用 qemu 启动编译好的内核; 需要指定合适的参数, -kernel, -hda, -append, -s, -S
+
+     d. 使用 gdb 连接启动的内核, 打断点进行调试;
+
+     *参考文档:* _Prepare the environment for developing Linux kernel with qemu_
 
 4. 内核开发涉及到的一些工具?
+   - 内核的编译过程, make, kbuild
+
+   - 内核的启动原理, initramfs, initrd 等这些东西的作用到底是什么? 是不是启动过程
+     必须要使用的? PID 1 这个进程到底是怎么被创建出来的?
+
+   - 内核开发过程中使用到的一些内存检查, 编码规范检查工具, 如何在之后进行内核开
+     发时使用?
+
+   - 内核源码树下的脚本的作用?
+
 5. 掌握基础的汇编语言?
 
 
