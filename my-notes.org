@@ -1132,7 +1132,25 @@ _exit 和 exit 的区别:
         - 制作根文件系统时哪些东西是必须的? 似乎可以根据需要自己选择.
 
 4. 内核开发涉及到的一些工具?
-   - 内核的编译过程, make, kbuild
+   - 内核的编译过程, make, Kconfig/Kbuild 的工作原理?
+
+     + 概述: 内核使用 Kconfig 文件管理编译选型, 或者叫配置选项, 这些选项决定了一段
+       代码是编译到内核中, 还是编译成内核模块, 或者是不编译这段代码, 有些选项的
+       值是一个整数, 代表编译出的内核的一种限制, 比如最大进程数等; Kconfig 文件是
+       一种按照 Kconfig 语法写的配置文件, 在内核源码树中形成了一种树形结构, 管理不
+       同模块的配置选项;
+
+     + 内核的构建流程:
+       1. 使用 make menuconfig 首先构建出 Kbuild, Kbuild 指的是
+          /kernel/source/path/scripts/kconfg 下的代码, 这部分代码会在执行
+          menuconfig 时首先被编译出来;
+
+       2. 退出 menuconfig 时保存配置选型, 这时会把配置选项写到.config 文件中, 并且
+          Kbuild 会使用这个.config 在目录/kernel/source/path/include/generated 以及
+          其他目录下生成一些文件, 比如 autoconf.h, 这个文件将配置的编译选项转换成
+          了很多宏, 这个文件在编译其他源文件时需要被使用;
+
+       3. 编译 vmlinux 和 modules;
 
    - 内核的启动原理, initramfs, initrd 等这些东西的作用到底是什么? 是不是启动过程
      必须要使用的? PID 1 这个进程到底是怎么被创建出来的?
@@ -1141,6 +1159,10 @@ _exit 和 exit 的区别:
      发时使用?
 
    - 内核源码树下的脚本的作用?
+
+     1. 一部分是 Kbuild 的源码
+
+     2. 还有一些 perl 脚本, shell 脚本
 
 5. 掌握基础的汇编语言?
 
