@@ -1298,4 +1298,4 @@ _exit 和 exit 的区别:
 
 2. 解决办法.
 
-   安装某个 tty 字体, 具体方式参考 archwiki.
+   安装 ttf-dejavu 字体包, 具体方式参考 archwiki.
