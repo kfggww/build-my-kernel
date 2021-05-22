@@ -1346,6 +1346,35 @@ _exit 和 exit 的区别:
    free_irq(unsigned int irq, void *dev )
 
 
+** 中断 Bottom Half
+
+1. 内核实现 Bottom Half 的方式有哪些?
+
+   a. Softirq
+
+      使用这种方式实现 Bottom Half 需要修改内核源码, 灵活性不好.
+
+   b. Tasklet
+
+      基于 Softirq 实现的.
+
+   c. Work Queue
+
+      基于 kernel thread 实现的.
+
+2. process context 和 interrupt context 的区别?
+
+   首先 context 可以理解成环境, 或者说系统当前的状态. process context 指的是进程
+   当前所处的环境, 具体包括用户空间 context, 处理器 context, 系统 context, 用户
+   空间 context 描述进程的用户空间的代码, 数据, 栈, 堆等内存的情况, 处理器
+   context 描述进程相关的寄存器的状态, 系统 context 描述内核维护的进程数据;
+   interrupt context 描述中断发生时相关的硬件的状态.
+
+
+
+
+   
+
 ** 内核同步机制和方法
 
 1. 为什么需要同步?
