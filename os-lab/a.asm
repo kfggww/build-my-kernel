@@ -1,0 +1,7 @@
+
+
+    mov ax,0xff
+    mov bx,0xfe
+    mov cx,0xfd
+    mov dx,0xfc
+    hlt
