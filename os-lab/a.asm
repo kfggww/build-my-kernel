@@ -11,15 +11,18 @@
 
 show:
     mov dl, [es:msg+si]
-    mov [bx], dl
-    mov byte [bx+1], 0x84
+    mov [bx+80*32], dl
+    mov byte [bx+1+80*32], 0x84
     add bx, 2
-    inc si
+    add si, 1
     loop show
+
+    ;; 注意, 如果hlt指令放在db后面, 那么循环结束之后, CPU会从db处取指令, 会错误
+    ;; 的把数据当成指令去执行
+    hlt
 
 msg:
     db "Hello, MBR!"
 
 msg_len equ $ - msg
 
-    hlt
