@@ -27,7 +27,7 @@ greeting:
 ;;; 从硬盘上的100号扇区读取内核到内存中
     mov ax, kernel_data_section
     mov ds, ax
-    mov bx, 0
+    mov bx, 0x0000
     call read_one_sector
 
     hlt
@@ -45,20 +45,20 @@ read_one_sector:
 
     ; 设置读取扇区个数
     mov dx, 0x1f2
-    mov al, 1
+    mov al, 0x01
     out dx, al
 
     ; 设置起始扇区编号
     mov dx, 0x1f3
     mov al, bl
-    out dx, ax
+    out dx, al
 
     mov al, bh
     mov dx, 0x1f4
-    out dx, ax
+    out dx, al
 
     mov dx, 0x1f5
-    out dx, ax
+    out dx, al
 
     mov al, 0xe0
     mov dx, 0x1f6
@@ -87,7 +87,7 @@ waiting:
     mov dx, 0x1f0
 copy_data:
     in ax, dx
-    mov [bx], al
+    mov [bx], ax
     add bx, 2
     loop copy_data
 
