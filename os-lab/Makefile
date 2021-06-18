@@ -1,15 +1,22 @@
 .PHONY: all clean
 
-all: a.bin hd.img
+OBJECTS := hd.img disk_writer mbr.bin
+MBR_BIN_FILE := mbr.bin
+HD_IMG_FILE := hd.img
+
+all: write_mbr
 
 clean:
-	rm a.bin hd.img mbr_writer
+	rm $(OBJECTS)
 
-a.bin: a.asm
-	nasm -f bin a.asm -o a.bin
+write_mbr: disk_writer mbr.bin hd.img
+	./disk_writer $(MBR_BIN_FILE) $(HD_IMG_FILE) 0
 
-hd.img: a.bin mbr_writer
-	dd if=/dev/zero of=hd.img bs=512 count=20480 && ./mbr_writer
+disk_writer: disk_writer.c
+	gcc disk_writer.c -o disk_writer
 
-mbr_writer: mbr_writer.c
-	gcc mbr_writer.c -o mbr_writer
+mbr.bin: mbr.asm
+	nasm -f bin mbr.asm -o $(MBR_BIN_FILE)
+
+hd.img:
+	dd if=/dev/zero of=$(HD_IMG_FILE) bs=512 count=20480
