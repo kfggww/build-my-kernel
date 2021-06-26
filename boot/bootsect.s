@@ -27,4 +27,11 @@
 *
 * 3. 在multiboot2的标准中, 不同的tag的作用到底是什么? 是用来从内核向bootloader传
 * 递信息还是相反的? bootloader如何知道该把内核加载到哪里? 加载之后该从哪里执行?
+*
+* multiboot规范主要包括三个方面, 1. OS kernel所必须包含的Multiboot Header, 用于
+* bootloader识别内核映像, 其中还包含了内核向bootloader传递的信息; 2. bootloader
+* 加载内核时机器所处的状态; 3. bootloader向内核传递的数据
+
+* 现在的问题在于对编译工具链的使用, 编译选项很多, 不知道什么时候需要用什么选项.
+* bootloader把内核加载到了什么地方? 加载之后GDTR的状态是什么样的?
 */
