@@ -3,6 +3,7 @@
 *
 */
 
+    .align 8
     .text
     .global start, _start
 start:

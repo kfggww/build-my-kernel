@@ -1,7 +1,8 @@
 AS := as
 CC := gcc
 MAKE := make
-OBJECTS := head.o
+LD = ld
+OBJECTS := head.o head
 
 .PHONY: all clean
 
@@ -13,10 +14,10 @@ clean:
 	@echo "清理完毕!"
 
 kernel: head
-	@objcopy -S -O binary $< $@
+	@objcopy -O binary -j .text $< $@
 
 %.o: %.s
-	@$(CC) -m32 -ffreestanding -fno-builtin -o $@ $<
+	@$(AS) --32 -o $@ $<
 
 head: head.o
-	@$(CC) -m elf_i386 -nostartfiles -nolibc -o head head.o
+	@$(LD) -m elf_i386 -o head head.o
