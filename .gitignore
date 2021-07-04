@@ -2,7 +2,7 @@
 bochsout.txt
 boot/bootsect
 hd10m.img
-
+tools/build
 
 # Prerequisites
 *.d

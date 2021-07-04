@@ -5,7 +5,7 @@ CC = gcc
 LD = ld
 
 HD_IMG := hd10m.img
-OBJECTS := boot/*.o $(HD_IMG) boot/bootsect
+OBJECTS := boot/*.o $(HD_IMG) boot/bootsect tools/build
 
 
 .PHONY: all clean
@@ -15,9 +15,6 @@ all: Image
 Image: tools/build $(HD_IMG) boot/bootsect
 	@tools/build boot/bootsect boot/setup system $(HD_IMG)
 
-
-#boot/bootsect: boot/bootsect.o
-#	@objcopy -O binary -j .text $< $@
 
 # 参考linux 2.4.1的Makefile
 boot/bootsect.o: boot/bootsect.s
