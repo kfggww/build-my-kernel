@@ -1,2 +1,3 @@
-# build-my-kernel
-Learn how does the linux kernel work
+# TINIX
+
+模仿linux-0.12实现一个简单的内核.
