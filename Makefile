@@ -5,7 +5,7 @@ CC = gcc
 LD = ld
 
 HD_IMG := hd10m.img
-OBJECTS := boot/*.o $(HD_IMG)
+OBJECTS := boot/*.o $(HD_IMG) boot/bootsect
 
 
 .PHONY: all clean

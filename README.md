@@ -10,7 +10,7 @@
 2. [linux 2.4](https://mirrors.edge.kernel.org/pub/linux/kernel/v2.4/)
 3. [ELF file format](https://refspecs.linuxfoundation.org/elf/elf.pdf)
 4. [AT&T assembly](https://gist.github.com/mishurov/6bcf04df329973c15044)
-
+5. [BIOS Interrupt in detail](https://stanislavs.org/helppc/int_table.html)
 
 ## 进展
 - 实现了bootsect读取后续模块
