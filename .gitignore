@@ -1,3 +1,8 @@
+# 自定义ignore
+bochsout.txt
+hd10m.img
+
+
 # Prerequisites
 *.d
 
