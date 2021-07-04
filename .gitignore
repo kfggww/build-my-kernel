@@ -1,5 +1,6 @@
 # 自定义ignore
 bochsout.txt
+boot/bootsect
 hd10m.img
 
 
