@@ -1,4 +1,5 @@
 /*
+ * bootsect.s (C) kfggww
  * 由BIOS加载的第一个扇区, 用于加载内核的其他部分.
  */
 

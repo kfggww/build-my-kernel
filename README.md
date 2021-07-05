@@ -11,6 +11,8 @@
 3. [ELF file format](https://refspecs.linuxfoundation.org/elf/elf.pdf)
 4. [AT&T assembly](https://gist.github.com/mishurov/6bcf04df329973c15044)
 5. [BIOS Interrupt in detail](https://stanislavs.org/helppc/int_table.html)
+6. [Intel Instruction Set pages](https://web.itu.edu.tr/kesgin/mul06/intel/index.html)
+7. [IA-32 Assembly Language Reference Manual](https://docs.oracle.com/cd/E19455-01/806-3773/index.html)
 
 ## 进展
 - 实现了bootsect读取后续模块
