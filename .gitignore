@@ -1,6 +1,7 @@
 # 自定义ignore
 bochsout.txt
 boot/bootsect
+boot/setup
 hd10m.img
 tools/build
 

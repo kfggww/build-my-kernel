@@ -120,14 +120,15 @@ wait_lba_read:
 	jnz wait_lba_read
 
 	/*取出数据*/
-	movw $0x8000, %cx
-	movw $0x1f0, %dx					/*读数据端口*/
 	movw %si, %ax
 	movw $0x1000, %bx
 	mulw %bx
 	addw $SYSSEG, %ax
 	movw %ax, %es						/*设置es*/
 	movw $0, %bp						/*设置bx, es:bp确定数据要写入的内存位置*/
+
+	movw $0x8000, %cx
+	movw $0x1f0, %dx					/*读数据端口, 乘法指令影响dx*/
 copy_data:
 	in %dx, %ax
 	movw %ax, %es:(%bp)

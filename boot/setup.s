@@ -26,6 +26,7 @@ start:
 
     /*关中断*/
     cli
+    /*TODO: 8259重新编程, 到底是在干什么?*/
 
     /*移动system到0地址*/
     cld
@@ -49,13 +50,7 @@ end_move:
     movw $SETUPSEG, %ax
     movw %ax, %ds
 
-    /*
-	 * 准备进入保护模式
-	 * 1. 加载gdt, idt
-	 * 2. 打开A20地址线
-	 * 3. 使能CR0的PE位
-	 * 4. 跳转到system模块的head处开始执行
-	*/
+    /*准备进入保护模式*/
 
     /*1. 加载gdt, idt*/
     lgdt gdt_48
