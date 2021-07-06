@@ -5,8 +5,12 @@ CC = gcc
 LD = ld
 
 HD_IMG := hd10m.img
-OBJECTS := boot/*.o $(HD_IMG) boot/bootsect boot/setup tools/build
+OBJECTS := boot/*.o $(HD_IMG) boot/bootsect boot/setup tools/build init/*.o system
 
+# 参考的linux2.4.1, TODO: -f开头的选项和优化有关, strict-aliasing含义有待研究.
+# CFLAGS := -Wall -fomit-frame-pointer -fno-strict-aliasing
+# 因为汇编得到的是32位elf, 所以链接时也要输出对应的elf文件格式
+LDFLAGS := -m elf_i386
 
 .PHONY: all clean
 
@@ -32,6 +36,18 @@ boot/setup: boot/setup.o
 	@$(LD) -Ttext 0x0 -s -oformat=binary -o boot/setup.tmp.o $<
 	@objcopy -O binary -j .text boot/setup.tmp.o $@
 	@rm boot/setup.tmp.o
+
+# 生成32位ELF
+boot/head.o: boot/head.s
+	@$(AS) --32 -o $@ $<
+
+# 生成32位ELF
+init/main.o: init/main.c
+	@$(CC) $(CFLAGS) -m32 -c -o $@ $<
+
+# 链接得到system模块
+system: boot/head.o init/main.o
+	@$(LD) $(LDFLAGS) -Ttext 0x0 -o $@ $^
 
 tools/build: tools/build.c
 	@$(CC) $< -o $@
