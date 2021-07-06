@@ -92,7 +92,7 @@ begin_read_it:
 	movw %si, %ax
 	movw $128, %dx
 	mulw %dx
-	addw $1 + SETUPLEN, %ax
+	addw $2 + SETUPLEN, %ax
 	movw $0x1f3, %dx
 	out %al, %dx
 

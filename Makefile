@@ -16,7 +16,7 @@ LDFLAGS := -m elf_i386
 
 all: Image
 
-Image: tools/build $(HD_IMG) boot/bootsect boot/setup
+Image: tools/build $(HD_IMG) boot/bootsect boot/setup system
 	@tools/build boot/bootsect boot/setup system $(HD_IMG)
 
 
@@ -47,7 +47,9 @@ init/main.o: init/main.c
 
 # 链接得到system模块
 system: boot/head.o init/main.o
-	@$(LD) $(LDFLAGS) -Ttext 0x0 -o $@ $^
+	@$(LD) $(LDFLAGS) -Ttext 0x0 -oformat=binary -o system.tmp $^
+	@objcopy -O binary -j .text system.tmp $@
+	@rm system.tmp
 
 tools/build: tools/build.c
 	@$(CC) $< -o $@

@@ -13,6 +13,7 @@ _start:
 start:
     /*重置数据段选择子*/
     movw $0x10, %ax
+    movw %ax, %ds
     movw %ax, %es
     movw %ax, %fs
     movw %ax, %gs
@@ -24,6 +25,7 @@ start:
 
     /*再次设置数据段选择子, 因为gdt刚刚被重置了*/
     movw $0x10, %ax
+    movw %ax, %ds
     movw %ax, %es
     movw %ax, %fs
     movw %ax, %gs
@@ -110,15 +112,32 @@ setup_paging:
     stosl
 
     /*设置页目录表的表项*/
-    movl $pg0+0x7, pg_dir
-    movl $pg1+0x7, pg_dir+4
-    movl $pg2+0x7, pg_dir+8
-    movl $pg3+0x7, pg_dir+12
+    movl $pg0+0x7, _pg_dir
+    movl $pg1+0x7, _pg_dir+4
+    movl $pg2+0x7, _pg_dir+8
+    movl $pg3+0x7, _pg_dir+12
 
 
-    /*TODO: 填充页表pg0到pg3的页表项*/
+    /* 填充页表项.
+	 * 从pg3页表的最后一个表项开始填充, 最后一页的线性地址是0xfff000, 属性设置为
+	 * 0x7
+	 */
+    movl $0xfff007, %eax
+    movl $4*(1024*5-1), %edi
+    /*设置edi递减的*/
+    std
+setup_page_entry:
+    stosl
+    subl $4096, %eax
+    cmpl $4096, %edi
+    jnz setup_page_entry
 
-    /*TODO: 开启分页模式*/
+    /*开启分页模式*/
+    movl %cr0, %eax
+    or $0x80000000, %eax
+    movl %eax, %cr0
+
+    /*返回. 从栈中弹出main函数地址并开始执行*/
     ret
 
 

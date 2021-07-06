@@ -9,7 +9,7 @@
 
 int copy_bootsect(int, int);
 int copy_setup(int, int);
-
+int copy_system(int, int);
 
 int main(int argc, char **argv) {
   if (argc != 5) {
@@ -20,6 +20,7 @@ int main(int argc, char **argv) {
   // 忽略打开文件错误
   int fd_boot = open(argv[1], O_RDONLY);
   int fd_setup = open(argv[2], O_RDONLY);
+  int fd_sys = open(argv[3], O_RDONLY);
   int fd_img = open(argv[4], O_WRONLY);
 
   // 复制bootsect
@@ -32,8 +33,14 @@ int main(int argc, char **argv) {
     return -3;
   printf("复制setup完毕!\n");
 
+  // 复制system
+  if(copy_system(fd_sys, fd_img))
+    return -4;
+  printf("复制system完毕!\n");
+
   close(fd_boot);
   close(fd_setup);
+  close(fd_sys);
   close(fd_img);
 
   return 0;
@@ -84,6 +91,24 @@ int copy_setup(int fd_setup, int fd_img) {
   if(read(fd_setup, &test_end, 1) != 0) {
     printf("setup大小超过4扇区限制!\n");
     return -3;
+  }
+
+  return 0;
+}
+
+
+/*复制system模块到img*/
+int copy_system(int fd_sys, int fd_img) {
+  char buf[512] = {0};
+  lseek(fd_sys, 0, SEEK_SET);
+  lseek(fd_img, 512 * 5, SEEK_SET);
+
+  ssize_t size = 0;
+  while(size = read(fd_sys, buf, 512), size > 0) {
+    if(write(fd_img, buf, size) != size) {
+      printf("写入system错误!\n");
+      return -1;
+    }
   }
 
   return 0;
