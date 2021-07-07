@@ -92,7 +92,7 @@ begin_read_it:
 	movw %si, %ax
 	movw $128, %dx
 	mulw %dx
-	addw $2 + SETUPLEN, %ax
+	addw $1+SETUPLEN, %ax
 	movw $0x1f3, %dx
 	out %al, %dx
 
@@ -105,6 +105,7 @@ begin_read_it:
 	out %al, %dx	/*写端口0x1f5*/
 
 	inc %dx
+	movb $0xe0, %al	/*以LBA方式读取主硬盘*/
 	out %al, %dx	/*写端口0x1f6*/
 
 	/*请求读*/
