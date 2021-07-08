@@ -132,6 +132,10 @@ setup_page_entry:
     cmpl $4096, %edi
     jnz setup_page_entry
 
+    /*设置cr3寄存器*/
+    xor %eax, %eax
+    movl %eax, %cr3
+
     /*开启分页模式*/
     movl %cr0, %eax
     or $0x80000000, %eax
